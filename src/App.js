@@ -18,8 +18,18 @@ import { ClassWriteDemo } from './component/ClassWriteDemo'
 import testCss from './cssModules/test.module.css'
 import { PropTypeByClassComponentDemo } from "./component/PropTypeByClassComponentDemo"
 import ReduxDemo from './component/ReduxDemo'
+import { Routes, Route, NavLink, Navigate, Outlet,useNavigate } from 'react-router-dom'
+import { APage } from './component/APage'
+import { BPage } from './component/BPage'
+import styled from 'styled-components';
+import classNames  from 'classnames';
+import { NotFound } from './component/NotFound';
 
-
+const NavActive = styled.div`
+  .active {
+    color: red;
+  }
+`;
 
 function App() {
   //利用HOC进行登录认证拦截例子
@@ -36,37 +46,58 @@ function App() {
   }, []);
   const left = <span>插槽3-left</span>
   const middle = <span>插槽3-middle</span>
+
+  const navigate = useNavigate();
   return (
     <div className="App">
-      <ReduxDemo></ReduxDemo>
-      <PropTypeByClassComponentDemo name="张三44"></PropTypeByClassComponentDemo>
-      <button className={testCss.btn}>测试cssModules</button>
-      <button className={testCss.btn1}>测试cssModules</button>
-      <ClassWriteDemo1></ClassWriteDemo1>
-      <ClassWriteDemo></ClassWriteDemo>
-      <StyledDemo></StyledDemo>
-      <h1>App 组件</h1>
-      <Child name="666" />
-      <MyContext.Provider value={{ name: "777", age: 18 }}>
-        <FuncChild funcChildProps="函数组件的props" />
-      </MyContext.Provider>
-      <AuthComponent></AuthComponent>
-      <LifeCycleIntercept></LifeCycleIntercept>
-      <ChildRef ref={childRef}></ChildRef>
-      <Modal>
-        <span>666</span>
-        <button>关闭</button>
-      </Modal>
-      <Slots1Test>
-        <span>插槽1-children[0]</span>
-        <span>插槽1-children[1]</span>
-      </Slots1Test>
-      <Slots2Test>
-        <span>插槽2-children[0]</span>
-        <span>插槽2-children[1]</span>
-      </Slots2Test>
-      <Slots3Test left={left} middle={middle}></Slots3Test>
-      <StyleInheritDemo></StyleInheritDemo>
+      <NavActive>
+        <NavLink to="/a">APage</NavLink>
+        <NavLink to="/reDirect">reDirect</NavLink>
+        <NavLink to="/">index</NavLink>
+      </NavActive>
+      <button onClick={() => navigate("/a")}>API跳转APage</button>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <ReduxDemo></ReduxDemo>
+              <PropTypeByClassComponentDemo name="张三44"></PropTypeByClassComponentDemo>
+              <button className={testCss.btn}>测试cssModules</button>
+              <button className={testCss.btn1}>测试cssModules</button>
+              <ClassWriteDemo1></ClassWriteDemo1>
+              <ClassWriteDemo></ClassWriteDemo>
+              <StyledDemo></StyledDemo>
+              <h1>App 组件</h1>
+              <Child name="666" />
+              <MyContext.Provider value={{ name: "777", age: 18 }}>
+                <FuncChild funcChildProps="函数组件的props" />
+              </MyContext.Provider>
+              <AuthComponent></AuthComponent>
+              <LifeCycleIntercept></LifeCycleIntercept>
+              <ChildRef ref={childRef}></ChildRef>
+              <Modal>
+                <span>666</span>
+                <button>关闭</button>
+              </Modal>
+              <Slots1Test>
+                <span>插槽1-children[0]</span>
+                <span>插槽1-children[1]</span>
+              </Slots1Test>
+              <Slots2Test>
+                <span>插槽2-children[0]</span>
+                <span>插槽2-children[1]</span>
+              </Slots2Test>
+              <Slots3Test left={left} middle={middle}></Slots3Test>
+              <StyleInheritDemo></StyleInheritDemo>
+            </>
+          }
+        ></Route>
+        <Route path="/b" element={<BPage />} />
+        <Route path="/a" element={<APage />} />
+        <Route path="/reDirect" element={<Navigate to="/b" />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </div>
   );
 }

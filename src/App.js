@@ -17,6 +17,7 @@ import { ClassWriteDemo1 } from './component/ClassWriteDemo1'
 import { ClassWriteDemo } from './component/ClassWriteDemo'
 import testCss from './cssModules/test.module.css'
 import { PropTypeByClassComponentDemo } from "./component/PropTypeByClassComponentDemo"
+import ReduxDemo from './component/ReduxDemo'
 
 
 
@@ -37,6 +38,7 @@ function App() {
   const middle = <span>插槽3-middle</span>
   return (
     <div className="App">
+      <ReduxDemo></ReduxDemo>
       <PropTypeByClassComponentDemo name="张三44"></PropTypeByClassComponentDemo>
       <button className={testCss.btn}>测试cssModules</button>
       <button className={testCss.btn1}>测试cssModules</button>

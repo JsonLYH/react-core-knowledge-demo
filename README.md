@@ -89,3 +89,36 @@ const Button = ({ primary, size }) => {
 
 export default Button;
 ```
+# 关于redux中useSelector的性能优化
+## 使用浅比较进行优化
+```js
+// ❌ 错误：每次state变化都触发渲染
+const user = useSelector(state => state.user);
+
+// ✅ 正确：仅当user变化时渲染
+const user = useSelector(state => state.user, shallowEqual);
+
+```
+## 按字段进行精确选择
+```js
+// 仅当name变化时重新渲染
+const userName = useSelector(state => state.user.name);
+
+```
+## 创建记忆化选择器
+```js
+import { createSelector } from '@reduxjs/toolkit';
+
+const selectUser = state => state.user;
+const selectTheme = state => state.theme;
+
+// 创建记忆化选择器
+const selectUserAndTheme = createSelector(
+  [selectUser, selectTheme],
+  (user, theme) => ({ user, theme })
+);
+
+// 组件中使用
+const { user, theme } = useSelector(selectUserAndTheme);
+
+```

@@ -1,70 +1,91 @@
-# Getting Started with Create React App
+# useEffect 场景
+![alt text](image-1.png)
+## 1、每次渲染后都执行
+```js
+useEffect(() =>
+{
+// 每次组件渲染后都会执行
+console.log('组件已渲染或更新');
+});
+```
+## 2、仅在组件挂载时执行
+```js
+useEffect(() =>
+{
+// 只在组件挂载时执行一次
+console.log('组件已挂载');
+return () =>
+{
+// 清理函数，在组件卸载时执行
+console.log('组件即将卸载');
+};
+}, []);
+// 空依赖数组
+```
+## 3、依赖特定值变化时执行
+```js
+useEffect(() =>
+{
+// 当 count 或 name 变化时执行
+console.log(`Count: ${count
+}, Name: ${name
+}`);
+return () =>
+{
+// 清理上一次的 effect
+console.log('清理上一次的 effect');
+};
+}, [count, name]);
+// 依赖数组
+```
+# classnames 库结合css模块使用
+```
+import React from 'react';
+import classNames from 'classnames';
+import styles from './Button.module.css';
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+const Button = ({ primary, size }) => {
+  const buttonClass = classNames(styles.btn, {
+    [styles.primary]: primary,
+    [styles.large]: size === 'large',
+    [styles.small]: size === 'small',
+  });
 
-## Available Scripts
+  return (
+    <button className={buttonClass}>
+      Button
+    </button>
+  );
+};
 
-In the project directory, you can run:
+export default Button;
+```
+# classnames 库结合styled-components使用
+```
+import styled from 'styled-components';
+import classNames from 'classnames';
 
-### `npm start`
+const StyledButton = styled.button`
+  &.btn-primary {
+    background-color: blue;
+  }
+  &.btn-large {
+    font-size: 1.5em;
+  }
+`;
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+const Button = ({ primary, size }) => {
+  const buttonClass = classNames('btn', {
+    'btn-primary': primary,
+    'btn-large': size === 'large',
+  });
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  return (
+    <StyledButton className={buttonClass}>
+      Button
+    </StyledButton>
+  );
+};
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+export default Button;
+```
